@@ -11,21 +11,22 @@ function App() {
   const [responseMessage, setResponseMessage] = useState();
 
   const loadData = async () => {
-    setLoading(true)
+    setLoading(true);
     const response = await fetch(
-      "https://hadithsaverapi-dot-islam786.ew.r.appspot.com/duplicate/" + hadithNumber
+      "https://hadithsaverapi-dot-islam786.ew.r.appspot.com/duplicate/" +
+        hadithNumber
     );
     const json = await response.json();
     console.log(json);
 
     setHadithInternationalNumber(json.international_number);
     setHadithAdvanceNumber(json.advance_number);
-      setUrduText(json.text);
+    setUrduText(json.text);
 
     setLoading(false);
   };
 
-  const saveHadith = () => {
+  const saveHadith = async () => {
     setLoading(true);
 
     const formatData = {
@@ -49,18 +50,16 @@ function App() {
 
     console.log(content);
 
-    setResponseMessage(content.message)
+    setResponseMessage(content.message);
 
     setLoading(false);
   };
 
   return (
-    <div>
+    <div style={{ padding: 20 }}>
       <div>{responseMessage}</div>
-      <div>
-        {
-          loading && "Loading..."
-        }
+      <div style={{ marginTop: 10 }}>
+        {loading && "Loading..."}
         <input
           type="text"
           onChange={(v) => setHadithNumber(v)}
@@ -68,12 +67,12 @@ function App() {
         />
         <button onClick={loadData}>Load Data</button>
       </div>
-      <div>
+      <div style={{ marginTop: 10 }}>
         Hadith international number: {hadithInternationallNumber}
         <br />
         Hadith Advance number: {hadithAdvanceNumber}
       </div>
-      <div>
+      <div style={{ marginTop: 10 }}>
         <label> New Advance Number</label>
         <input
           type="text"
@@ -84,16 +83,30 @@ function App() {
         <br />
         <label>Linked Hadiths</label>
         <input
+          style={{ width: 400 }}
           type="text"
           onChange={(v) => setLinkedHadiths(v)}
           value={linkedHadiths}
         />
       </div>
-      <div>
-      <textarea>{urduText}</textarea>
+      <div style={{ marginTop: 10 }}>
+        <textarea
+          rows="15"
+          cols="120"
+          dir="rtl"
+          style={{
+            fontFamily: '"Amiri", serif',
+            fontWeight: "500",
+            fontSize: "20px",
+            paddingLeft: 10,
+            paddingRight: 10,
+          }}
+        >
+          {urduText}
+        </textarea>
       </div>
 
-      <div>
+      <div style={{ marginTop: 10 }}>
         <button onClick={saveHadith}>Save</button>
       </div>
     </div>
