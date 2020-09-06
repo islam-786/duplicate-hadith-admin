@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [hadithNumber, setHadithNumber] = useState(0);
-  const [linkedHadiths, setLinkedHadiths] = useState();
-  const [newAdvanceNumber, setNewAdvanceNumber] = useState();
-  const [urduText, setUrduText] = useState();
+  const [hadithNumber, setHadithNumber] = useState("");
+  const [linkedHadiths, setLinkedHadiths] = useState("");
+  const [newAdvanceNumber, setNewAdvanceNumber] = useState("");
+  const [urduText, setUrduText] = useState("");
   const [hadithInternationallNumber, setHadithInternationalNumber] = useState();
   const [hadithAdvanceNumber, setHadithAdvanceNumber] = useState();
   const [responseMessage, setResponseMessage] = useState();
@@ -21,7 +21,7 @@ function App() {
 
     setHadithInternationalNumber(json.international_number);
     setHadithAdvanceNumber(json.advance_number);
-    setUrduText(json.text);
+    setUrduText(json.urdu_text);
 
     setLoading(false);
   };
@@ -62,7 +62,7 @@ function App() {
         {loading && "Loading..."}
         <input
           type="text"
-          onChange={(v) => setHadithNumber(v)}
+          onChange={(event) => setHadithNumber(event.target.value)}
           value={hadithNumber}
         />
         <button onClick={loadData}>Load Data</button>
@@ -76,7 +76,7 @@ function App() {
         <label> New Advance Number</label>
         <input
           type="text"
-          onChange={(v) => setNewAdvanceNumber(v)}
+          onChange={(event) => setNewAdvanceNumber(event.target.value)}
           value={newAdvanceNumber}
         />
         <br />
@@ -85,7 +85,7 @@ function App() {
         <input
           style={{ width: 400 }}
           type="text"
-          onChange={(v) => setLinkedHadiths(v)}
+          onChange={(event) => setLinkedHadiths(event.target.value)}
           value={linkedHadiths}
         />
       </div>
@@ -101,9 +101,8 @@ function App() {
             paddingLeft: 10,
             paddingRight: 10,
           }}
-        >
-          {urduText}
-        </textarea>
+          defaultValue={urduText}
+        />
       </div>
 
       <div style={{ marginTop: 10 }}>
