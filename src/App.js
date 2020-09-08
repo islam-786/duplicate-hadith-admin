@@ -19,9 +19,13 @@ function App() {
     const json = await response.json();
     console.log(json);
 
-    setHadithInternationalNumber(json.international_number);
-    setHadithAdvanceNumber(json.advance_number);
-    setUrduText(json.urdu_text);
+    if (json.error) {
+      setResponseMessage(json.error);
+    } else {
+      setHadithInternationalNumber(json.international_number);
+      setHadithAdvanceNumber(json.advance_number);
+      setUrduText(json.urdu_text);
+    }
 
     setLoading(false);
   };
@@ -30,10 +34,13 @@ function App() {
     setLoading(true);
 
     const formatData = {
-      old_advance_number: "180",
-      new_advance_number: "180-a",
-      linkedHadiths: "180-b,180-c",
+      old_advance_number: hadithAdvanceNumber,
+      new_advance_number: newAdvanceNumber,
+      linkedHadiths: linkedHadiths,
     };
+
+    console.log("format data");
+    console.log(formatData);
 
     const rawResponse = await fetch(
       "https://hadithsaverapi-dot-islam786.ew.r.appspot.com/duplicate-save",
@@ -46,8 +53,8 @@ function App() {
         body: JSON.stringify(formatData),
       }
     );
-    const content = await rawResponse.json();
 
+    const content = await rawResponse.json();
     console.log(content);
 
     setResponseMessage(content.message);
@@ -66,6 +73,9 @@ function App() {
           value={hadithNumber}
         />
         <button onClick={loadData}>Load Data</button>
+        <button style={{ marginLeft: 100 }} onClick={saveHadith}>
+          Save
+        </button>
       </div>
       <div style={{ marginTop: 10 }}>
         Hadith international number: {hadithInternationallNumber}
@@ -103,10 +113,6 @@ function App() {
           }}
           defaultValue={urduText}
         />
-      </div>
-
-      <div style={{ marginTop: 10 }}>
-        <button onClick={saveHadith}>Save</button>
       </div>
     </div>
   );
